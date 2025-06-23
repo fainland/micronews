@@ -59,6 +59,9 @@ if reply.endswith("```"):
 try:
     metadata = json.loads(reply)
 
+    # Ensure the public directory exists
+    os.makedirs("public", exist_ok=True)
+
     with open("public/metadata.json", "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
     print("✅ metadata.json created.")
