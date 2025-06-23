@@ -59,7 +59,7 @@ if reply.endswith("```"):
 try:
     metadata = json.loads(reply)
 
-    with open("static/metadata.json", "w", encoding="utf-8") as f:
+    with open("public/metadata.json", "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
     print("✅ metadata.json created.")
 except json.JSONDecodeError:

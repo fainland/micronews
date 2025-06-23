@@ -15,11 +15,11 @@ os.makedirs(output_base, exist_ok=True)
 
 for idx, article in enumerate(articles):
     site_dir = os.path.join(output_base, f"site-{idx+1}")
-    static_dir = os.path.join(site_dir, "static")
+    public_dir = os.path.join(site_dir, "public")
     os.makedirs(site_dir, exist_ok=True)
-    os.makedirs(static_dir, exist_ok=True)
+    os.makedirs(public_dir, exist_ok=True)
 
-    # Copy static assets
+    # Copy public assets
     shutil.copy("styles.css", os.path.join(site_dir, "styles.css"))
     shutil.copy("script.js", os.path.join(site_dir, "script.js"))
 
@@ -70,10 +70,10 @@ Content: {article.get('content', '')}
         metadata = json.loads(reply)
 
         # Save metadata.json
-        with open(os.path.join(static_dir, "metadata.json"), "w", encoding="utf-8") as f:
+        with open(os.path.join(public_dir, "metadata.json"), "w", encoding="utf-8") as f:
             json.dump(metadata, f, indent=2)
 
-        # Generate static index.html
+        # Generate public index.html
         index_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
