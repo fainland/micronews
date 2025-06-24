@@ -2,26 +2,28 @@ import os
 import json
 import shutil
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 # Load all articles
 with open("raw_articles.json", "r", encoding="utf-8") as f:
     articles = json.load(f)
 
 # Create base folder for output
-output_base = "sites"
+output_base = "public"
 os.makedirs(output_base, exist_ok=True)
 
 for idx, article in enumerate(articles):
-    site_dir = os.path.join(output_base, f"site-{idx+1}")
-    public_dir = os.path.join(site_dir, "public")
-    os.makedirs(site_dir, exist_ok=True)
+    public_dir = os.path.join(output_base, f"site-{idx+1}")
     os.makedirs(public_dir, exist_ok=True)
 
     # Copy public assets
-    shutil.copy("styles.css", os.path.join(site_dir, "styles.css"))
-    shutil.copy("script.js", os.path.join(site_dir, "script.js"))
+    shutil.copy("styles.css", os.path.join(public_dir, "styles.css"))
+    shutil.copy("script.js", os.path.join(public_dir, "script.js"))
 
     # Build GPT prompt
     prompt = f"""
@@ -108,7 +110,7 @@ Content: {article.get('content', '')}
 </body>
 </html>"""
 
-        with open(os.path.join(site_dir, "index.html"), "w", encoding="utf-8") as f:
+        with open(os.path.join(public_dir, "index.html"), "w", encoding="utf-8") as f:
             f.write(index_html)
 
         print(f"✅ Created microsite for article {idx+1}")
